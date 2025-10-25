@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #fff0f5;
+    text-align: center;
+    overflow: hidden;
+    height: 100vh;
+    margin: 0;
+  }
+
+  h2 {
+    margin-top: 80px;
+    font-size: 22px;
+    color: #e91e63;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    position: absolute;
+    transition: transform 0.1s ease;
+  }
+
+  #yes {
+    background-color: #4CAF50;
+    color: white;
+    left: 100px;
+    top: 150px;
+  }
+
+  #no {
+    background-color: #f44336;
+    color: white;
+    left: 220px;
+    top: 150px;
+  }
+</style>
+</head>
+<body>
+
+<h2>Will you be my girlfriend?</h2>
+
+<button id="yes" onclick="sayYes()">Yes</button>
+<button id="no" onclick="shrinkNo()">No</button>
+
+<script>
+let currentSize = 1.0; // initial size of the "No" button
+
+function shrinkNo() {
+  const noBtn = document.getElementById("no");
+  currentSize -= 0.1; // shrink a bit per click
+  if (currentSize <= 0) {
+    noBtn.style.display = "none";
+  } else {
+    noBtn.style.transform = `scale(${currentSize})`;
+    noBtn.style.opacity = currentSize;
+  }
+}
+
+function sayYes() {
+  alert("Hehehe, I love you!");
+}
+</script>
+
+</body>
+</html>
