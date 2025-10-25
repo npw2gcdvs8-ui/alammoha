@@ -53,11 +53,11 @@
 <button id="no" onclick="shrinkNo()">No</button>
 
 <script>
-let currentSize = 1.0; // initial size of the "No" button
+let currentSize = 1.0;
 
 function shrinkNo() {
   const noBtn = document.getElementById("no");
-  currentSize -= 0.1; // shrink a bit per click
+  currentSize -= 0.1;
   if (currentSize <= 0) {
     noBtn.style.display = "none";
   } else {
