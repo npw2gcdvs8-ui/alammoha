@@ -34,15 +34,17 @@
   #yes {
     background-color: #4CAF50;
     color: white;
-    left: 100px;
-    top: 150px;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
   }
 
   #no {
     background-color: #f44336;
     color: white;
-    left: 220px;
-    top: 150px;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
   }
 </style>
 </head>
@@ -51,11 +53,12 @@
 <h2>Will you be my girlfriend?</h2>
 
 <button id="yes" onclick="sayYes()">Yes</button>
-<button id="no" onclick="moveNo()">No</button>
+<button id="no">No</button>
 
 <script>
-function moveNo() {
-  const noBtn = document.getElementById("no");
+const noBtn = document.getElementById("no");
+
+noBtn.addEventListener("mouseenter", () => {
   const bodyWidth = window.innerWidth;
   const bodyHeight = window.innerHeight;
 
@@ -67,7 +70,8 @@ function moveNo() {
 
   noBtn.style.left = randomX + "px";
   noBtn.style.top = randomY + "px";
-}
+  noBtn.style.transform = "translate(0, 0)";
+});
 
 function sayYes() {
   alert("Hehehe, I love you!");
