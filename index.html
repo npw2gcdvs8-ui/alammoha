@@ -12,6 +12,7 @@
     overflow: hidden;
     height: 100vh;
     margin: 0;
+    position: relative;
   }
 
   h2 {
@@ -27,7 +28,7 @@
     border-radius: 8px;
     cursor: pointer;
     position: absolute;
-    transition: transform 0.1s ease;
+    transition: all 0.2s ease;
   }
 
   #yes {
@@ -50,20 +51,22 @@
 <h2>Will you be my girlfriend?</h2>
 
 <button id="yes" onclick="sayYes()">Yes</button>
-<button id="no" onclick="shrinkNo()">No</button>
+<button id="no" onclick="moveNo()">No</button>
 
 <script>
-let currentSize = 1.0;
-
-function shrinkNo() {
+function moveNo() {
   const noBtn = document.getElementById("no");
-  currentSize -= 0.1;
-  if (currentSize <= 0) {
-    noBtn.style.display = "none";
-  } else {
-    noBtn.style.transform = `scale(${currentSize})`;
-    noBtn.style.opacity = currentSize;
-  }
+  const bodyWidth = window.innerWidth;
+  const bodyHeight = window.innerHeight;
+
+  const btnWidth = noBtn.offsetWidth;
+  const btnHeight = noBtn.offsetHeight;
+
+  const randomX = Math.random() * (bodyWidth - btnWidth);
+  const randomY = Math.random() * (bodyHeight - btnHeight);
+
+  noBtn.style.left = randomX + "px";
+  noBtn.style.top = randomY + "px";
 }
 
 function sayYes() {
@@ -73,4 +76,3 @@ function sayYes() {
 
 </body>
 </html>
-
