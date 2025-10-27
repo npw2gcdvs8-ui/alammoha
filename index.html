@@ -107,18 +107,12 @@
   </main>
 
   <div id="message">
-    Happy Birthday to the girl I adore most!!!
-    <br><br>
-    You never fail to make me feel loved—I'm so grateful to have someone like you in my life. You truly deserve the world, my bestie... though honestly, even the world wouldn't be enough.
-    <br><br>
-    Ano ba 'tong tumutulo... kasi naman e T^T
-    <br><br>
-    You've given me love and care like no one else ever has, and you make me feel safe, seen, and valued in ways I didn't know I needed. You bring me peace just by being you.
-    <br><br>
-    I'm so proud of you, always. You're beautiful—inside and out—and I wish everyone could see you the way I do.
-    <br><br>
-    I hope your day is filled with the same love and happiness you've given me. Enjoy your special day—and know that someone out here is thinking of you a little more than usual today.
-    <br><br>
+    Happy Birthday to the girl I adore most!!!<br><br>
+    You never fail to make me feel loved—I'm so grateful to have someone like you in my life. You truly deserve the world, my bestie... though honestly, even the world wouldn't be enough.<br><br>
+    Ano ba 'tong tumutulo... kasi naman e T^T<br><br>
+    You've given me love and care like no one else ever has, and you make me feel safe, seen, and valued in ways I didn't know I needed. You bring me peace just by being you.<br><br>
+    I'm so proud of you, always. You're beautiful—inside and out—and I wish everyone could see you the way I do.<br><br>
+    I hope your day is filled with the same love and happiness you've given me. Enjoy your special day—and know that someone out here is thinking of you a little more than usual today.<br><br>
     — Lovingly yours, always 💌
   </div>
 
@@ -186,31 +180,34 @@ function startSurprise() {
   const p = document.querySelector("p");
   const message = document.getElementById("message");
 
-  tap.classList.add("hidden");
-  h1.classList.add("show");
-  p.classList.add("show");
-
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  playBirthdaySongLoop();
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().then(() => {
+      console.log("Audio unlocked!");
+      startAnimationAndMusic();
+    });
+  } else {
+    startAnimationAndMusic();
+  }
 
-  setTimeout(() => {
-    message.classList.add("show");
+  function startAnimationAndMusic() {
+    tap.classList.add("hidden");
+    h1.classList.add("show");
+    p.classList.add("show");
 
-    // 1️⃣ Scroll smoothly to start of the message
-    smoothScrollTo(message.offsetTop, 4000);
-
-    // 2️⃣ Then, after reaching it, scroll slowly to the bottom
     setTimeout(() => {
-      smoothScrollTo(document.body.scrollHeight, 10000);
-    }, 4500);
+      playBirthdaySongLoop();
 
-  }, 5000);
+      setTimeout(() => {
+        message.classList.add("show");
+        smoothScrollTo(message.offsetTop, 4000);
+      }, 5000);
+    }, 300);
+  }
 }
 
 document.getElementById("tap").addEventListener("click", startSurprise);
 document.getElementById("tap").addEventListener("touchstart", startSurprise);
 </script>
-
 </body>
 </html>
