@@ -183,7 +183,6 @@ function startSurprise() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   if (audioCtx.state === 'suspended') {
     audioCtx.resume().then(() => {
-      console.log("Audio unlocked!");
       startAnimationAndMusic();
     });
   } else {
@@ -200,7 +199,9 @@ function startSurprise() {
 
       setTimeout(() => {
         message.classList.add("show");
-        smoothScrollTo(message.offsetTop, 4000);
+
+        const y = message.getBoundingClientRect().top + window.scrollY - 50;
+        smoothScrollTo(y, 4000);
       }, 5000);
     }, 300);
   }
@@ -211,3 +212,4 @@ document.getElementById("tap").addEventListener("touchstart", startSurprise);
 </script>
 </body>
 </html>
+
