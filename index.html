@@ -46,7 +46,7 @@
     font-size: 0.9rem;
     color: #5a005f;
     opacity: 0.7;
-    margin-top: 120px; /* 👈 add large gap below message */
+    margin-top: 120px;
     margin-bottom: 30px;
   }
 
@@ -144,30 +144,24 @@ function playBirthdaySongLoop() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   let now = audioCtx.currentTime;
 
-  // Complete "Happy Birthday" melody (in C major)
   const notes = [
-    [264, 250], [264, 250], [297, 500], [264, 500], [352, 500], [330, 1000],        // Happy birthday to you
-    [264, 250], [264, 250], [297, 500], [264, 500], [396, 500], [352, 1000],        // Happy birthday to you
-    [264, 250], [264, 250], [528, 500], [440, 500], [352, 500], [330, 500], [297, 1000], // Happy birthday dear [Name]
-    [466, 250], [466, 250], [440, 500], [352, 500], [396, 500], [352, 1500],        // Happy birthday to you 🎶
-    
-    // (Optional extended gentle outro)
+    [264, 250], [264, 250], [297, 500], [264, 500], [352, 500], [330, 1000],
+    [264, 250], [264, 250], [297, 500], [264, 500], [396, 500], [352, 1000],
+    [264, 250], [264, 250], [528, 500], [440, 500], [352, 500], [330, 500], [297, 1000],
+    [466, 250], [466, 250], [440, 500], [352, 500], [396, 500], [352, 1500],
     [330, 400], [297, 400], [264, 600], [352, 400], [330, 400], [297, 600],
     [440, 400], [396, 400], [352, 600], [264, 1200]
   ];
 
-  // Calculate total duration
   let totalDuration = 0;
   for (const [_, dur] of notes) totalDuration += dur * 1.15;
 
-  // Play each note with smooth timing
   let t = 0;
   for (const [freq, dur] of notes) {
     playNote(freq, dur, now + t / 1000);
     t += dur * 1.15;
   }
 
-  // Loop again after full song ends
   setTimeout(playBirthdaySongLoop, totalDuration);
 }
 
@@ -200,15 +194,23 @@ function startSurprise() {
   if (audioCtx.state === 'suspended') audioCtx.resume();
   playBirthdaySongLoop();
 
-  // smooth scroll to bottom of page after 5 seconds
   setTimeout(() => {
     message.classList.add("show");
-    smoothScrollTo(document.body.scrollHeight, 5000); // scroll to bottom
+
+    // 1️⃣ Scroll smoothly to start of the message
+    smoothScrollTo(message.offsetTop, 4000);
+
+    // 2️⃣ Then, after reaching it, scroll slowly to the bottom
+    setTimeout(() => {
+      smoothScrollTo(document.body.scrollHeight, 10000);
+    }, 4500);
+
   }, 5000);
 }
 
 document.getElementById("tap").addEventListener("click", startSurprise);
 document.getElementById("tap").addEventListener("touchstart", startSurprise);
 </script>
+
 </body>
 </html>
