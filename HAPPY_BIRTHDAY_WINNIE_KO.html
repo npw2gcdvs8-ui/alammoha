@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Birthday My Bestie!</title>
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at center, #ffccd5 0%, #ffb3c6 40%, #ff8fab 80%);
+    font-family: "Poppins", sans-serif;
+    color: #4a004e;
+    text-align: center;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    position: relative;
+  }
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  h1 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+    text-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 1s ease 0.3s;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #5a005f;
+    opacity: 0.7;
+    margin-top: 120px; /* 👈 add large gap below message */
+    margin-bottom: 30px;
+  }
+
+  #tap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(6px);
+    background: rgba(255,255,255,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4a004e;
+    font-weight: 600;
+    font-size: 1.3rem;
+    text-shadow: 0 2px 6px rgba(255,255,255,0.6);
+    transition: opacity 1s ease;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .show {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  #message {
+    margin-top: 60vh;
+    font-size: 1.3rem;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 2s ease;
+    padding: 0 20px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #message.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+  <div id="tap">✨ Tap anywhere to start your surprise ✨</div>
+
+  <main>
+    <h1>🎂 Happy Birthday, My Bestie! 🎉</h1>
+    <p>Wishing you love, laughter, and endless happiness 💕</p>
+  </main>
+
+  <div id="message">
+    Happy Birthday to the girl I adore most!!!
+    <br><br>
+    You never fail to make me feel loved—I'm so grateful to have someone like you in my life. You truly deserve the world, my bestie... though honestly, even the world wouldn't be enough.
+    <br><br>
+    Ano ba 'tong tumutulo... kasi naman e T^T
+    <br><br>
+    You've given me love and care like no one else ever has, and you make me feel safe, seen, and valued in ways I didn't know I needed. You bring me peace just by being you.
+    <br><br>
+    I'm so proud of you, always. You're beautiful—inside and out—and I wish everyone could see you the way I do.
+    <br><br>
+    I hope your day is filled with the same love and happiness you've given me. Enjoy your special day—and know that someone out here is thinking of you a little more than usual today.
+    <br><br>
+    — Lovingly yours, always 💌
+  </div>
+
+  <footer>Made with ❤️ just for you</footer>
+
+<script>
+let audioCtx;
+
+function playNote(freq, duration, startTime) {
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.frequency.value = freq;
+  osc.type = 'triangle';
+  gain.gain.setValueAtTime(0.15, startTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration / 1000);
+  osc.start(startTime);
+  osc.stop(startTime + duration / 1000);
+}
+
+function playBirthdaySongLoop() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  let now = audioCtx.currentTime;
+
+  // Complete "Happy Birthday" melody (in C major)
+  const notes = [
+    [264, 250], [264, 250], [297, 500], [264, 500], [352, 500], [330, 1000],        // Happy birthday to you
+    [264, 250], [264, 250], [297, 500], [264, 500], [396, 500], [352, 1000],        // Happy birthday to you
+    [264, 250], [264, 250], [528, 500], [440, 500], [352, 500], [330, 500], [297, 1000], // Happy birthday dear [Name]
+    [466, 250], [466, 250], [440, 500], [352, 500], [396, 500], [352, 1500],        // Happy birthday to you 🎶
+    
+    // (Optional extended gentle outro)
+    [330, 400], [297, 400], [264, 600], [352, 400], [330, 400], [297, 600],
+    [440, 400], [396, 400], [352, 600], [264, 1200]
+  ];
+
+  // Calculate total duration
+  let totalDuration = 0;
+  for (const [_, dur] of notes) totalDuration += dur * 1.15;
+
+  // Play each note with smooth timing
+  let t = 0;
+  for (const [freq, dur] of notes) {
+    playNote(freq, dur, now + t / 1000);
+    t += dur * 1.15;
+  }
+
+  // Loop again after full song ends
+  setTimeout(playBirthdaySongLoop, totalDuration);
+}
+
+function smoothScrollTo(targetY, duration = 4000) {
+  const startY = window.scrollY;
+  const diff = targetY - startY;
+  const startTime = performance.now();
+
+  function animate(time) {
+    const elapsed = time - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    window.scrollTo(0, startY + diff * ease);
+    if (progress < 1) requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+}
+
+function startSurprise() {
+  const tap = document.getElementById("tap");
+  const h1 = document.querySelector("h1");
+  const p = document.querySelector("p");
+  const message = document.getElementById("message");
+
+  tap.classList.add("hidden");
+  h1.classList.add("show");
+  p.classList.add("show");
+
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  playBirthdaySongLoop();
+
+  // smooth scroll to bottom of page after 5 seconds
+  setTimeout(() => {
+    message.classList.add("show");
+    smoothScrollTo(document.body.scrollHeight, 5000); // scroll to bottom
+  }, 5000);
+}
+
+document.getElementById("tap").addEventListener("click", startSurprise);
+document.getElementById("tap").addEventListener("touchstart", startSurprise);
+</script>
+</body>
+</html>
